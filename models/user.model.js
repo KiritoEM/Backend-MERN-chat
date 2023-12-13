@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new userSchema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -25,14 +25,21 @@ const userSchema = new userSchema({
   },
 
   //liste des discussions de chaque utilisateur
-  discussions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Discussion',
-  }],
+  discussions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Discussion",
+    },
+  ],
 
   // liste d'amis
-  friends: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Friend', 
-  }],
+  friends: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "Friend",
+    },
+  ],
 });
+
+const userModel = mongoose.model("User", userSchema);
+module.exports = userModel;

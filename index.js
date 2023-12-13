@@ -23,7 +23,7 @@ app.get('/home', (req, res) => {
 
 
 // App routes
-// app.use("/email", require("./routes/email.routes"));
+app.use("/auth", require("./routes/Auth.routes"));
 
 // Start server
 server.listen(process.env.PORT, () => {
