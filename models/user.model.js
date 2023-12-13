@@ -23,12 +23,16 @@ const userSchema = new userSchema({
     type: Date,
     default: Date.now,
   },
-  discussion_list: {
-    type: Array,
-    default: [],
-  },
-  friends: {
-    type: Array,
-    default: [],
-  },
+
+  //liste des discussions de chaque utilisateur
+  discussions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Discussion',
+  }],
+
+  // liste d'amis
+  friends: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Friend', 
+  }],
 });
