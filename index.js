@@ -24,6 +24,7 @@ app.get('/home', (req, res) => {
 
 // App routes
 app.use("/auth", require("./routes/Auth.routes"));
+app.use("/chat", require("./routes/chat.routes"));
 
 // Start server
 server.listen(process.env.PORT, () => {

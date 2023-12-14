@@ -1,4 +1,4 @@
-const userModel = require("./../models/user.model");
+const userModel = require("../models/user.model");
 
 const addFriend = async (req, res) => {
   const { userID, friendID } = req.params;
@@ -21,4 +21,15 @@ const addFriend = async (req, res) => {
   }
 };
 
-module.export = { addFriend };
+const getFriend = async (req, res) => {
+  const { userID } = req.params;
+
+  try {
+    const user = await userModel.findById(userID).populate("friends").exec();
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+module.exports = { addFriend , getFriend };
