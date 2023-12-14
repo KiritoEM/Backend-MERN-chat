@@ -13,10 +13,10 @@ const discussionSchema = new mongoose.Schema({
   messages : [
     {
       type: mongoose.Schema.ObjectId,
-      ref: "Message",
+      ref: "Chat",
     },
   ],
 });
 
-const userModel = mongoose.model("Discussion", discussionSchema);
-module.exports = userModel;
+const discussionModel = mongoose.model("Discussion", discussionSchema);
+module.exports = discussionModel;
