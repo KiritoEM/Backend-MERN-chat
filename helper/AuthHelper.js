@@ -1,3 +1,4 @@
+const { error } = require("console");
 const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 
@@ -11,6 +12,26 @@ const signupHelper = (username, email, password) => {
   return newUser.save();
 };
 
+const loginHelper = async (email, password) => {
+  try {
+    const user = await userModel.findOne({ email: email });
+
+    if (user) {
+      const passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (passwordMatch) {
+        return user;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.error(error);
+  }
+};
+
 const checkEmail = async (email) => {
   try {
     const user = await userModel.findOne({ email: email });
@@ -22,6 +43,7 @@ const checkEmail = async (email) => {
     }
   } catch (err) {
     console.error(err);
+    throw error;
   }
 };
 
@@ -36,4 +58,4 @@ const hashPassword = async (password) => {
   }
 };
 
-module.exports = { signupHelper, hashPassword, checkEmail };
+module.exports = { signupHelper, hashPassword, checkEmail, loginHelper };
