@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 const signupHelper = (username, email, password) => {
   const newUser = new userModel({
-    username: username,
+    username: username, 
     email: email,
     password: password,
   });
@@ -27,7 +27,7 @@ const loginHelper = async (email, password) => {
     } else {
       return null;
     }
-  } catch (err) {
+  } catch (err) { 
     console.error(error);
   }
 };
