@@ -1,7 +1,7 @@
 const discussionModel = require("./../models/discussions.model");
 const userModel = require("../models/user.model");
 
-const addDiscussion = async (userID, friendID) => {
+const addDiscussion = async (userID, friendID, name) => {
   const user = await userModel.findById(userID);
   const friend = await userModel.findById(friendID);
 
@@ -15,6 +15,7 @@ const addDiscussion = async (userID, friendID) => {
     } else {
       let newDiscussion = new discussionModel({
         users: [user._id, friend._id],
+        name: name,
       });
 
       const savedDiscussion = await newDiscussion.save();

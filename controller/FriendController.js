@@ -26,7 +26,7 @@ const getFriend = async (req, res) => {
 
   try {
     const user = await userModel.findById(userID).populate("friends").exec();
-    return res.status(200).json(user);
+    return res.status(200).json(user.friends);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }

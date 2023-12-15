@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const discussionSchema = new mongoose.Schema({
-  //liste des discussions de chaque utilisateur
+  name: {
+    type: String,
+    default: "nouvelle-discussion",
+  },
+  //liste des utilisateurs dans la discussion
   users: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -10,7 +14,7 @@ const discussionSchema = new mongoose.Schema({
   ],
 
   // liste des messages dans la discussion
-  messages : [
+  messages: [
     {
       type: mongoose.Schema.ObjectId,
       ref: "Chat",
