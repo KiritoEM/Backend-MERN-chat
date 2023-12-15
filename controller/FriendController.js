@@ -32,4 +32,4 @@ const getFriend = async (req, res) => {
   }
 };
 
-module.exports = { addFriend , getFriend };
+module.exports = { addFriend, getFriend };
