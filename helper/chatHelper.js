@@ -34,14 +34,22 @@ const addDiscussion = async (userID, friendID, name) => {
   }
 };
 
-const makeChat = (content, userID, discussionID) => {
+const makeChat = async (content, userID, discussionID) => {
+  const discussion = await discussionModel.findById(discussionID);
+
   const newChat = new chatModel({
     content: content,
     author: userID,
     discussion_ref: discussionID,
   });
 
-  return newChat.save();
+  const savedChat = await newChat.save();
+
+  discussion.messages.push(savedChat._id);
+
+  await discussion.save();
+
+  return savedChat;
 };
 
 module.exports = { addDiscussion, makeChat };

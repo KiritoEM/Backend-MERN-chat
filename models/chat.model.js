@@ -10,7 +10,7 @@ const chatSchema = new mongoose.Schema({
     ref: "User",
   },
   content: {
-    type: string,
+    type: String,
     resuired: true,
   },
   discussion_ref: {
