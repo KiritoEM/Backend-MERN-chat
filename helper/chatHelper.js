@@ -1,4 +1,5 @@
 const discussionModel = require("./../models/discussions.model");
+const chatModel = require("./../models/chat.model");
 const userModel = require("../models/user.model");
 
 const addDiscussion = async (userID, friendID, name) => {
@@ -33,4 +34,14 @@ const addDiscussion = async (userID, friendID, name) => {
   }
 };
 
-module.exports = { addDiscussion };
+const makeChat = (content, userID, discussionID) => {
+  const newChat = new chatModel({
+    content: content,
+    author: userID,
+    discussion_ref: discussionID,
+  });
+
+  return newChat.save();
+};
+
+module.exports = { addDiscussion, makeChat };

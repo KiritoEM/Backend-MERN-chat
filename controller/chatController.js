@@ -1,5 +1,5 @@
 const userModel = require("../models/user.model");
-const { addDiscussion } = require("./../helper/chatHelper");
+const { addDiscussion, makeChat } = require("./../helper/chatHelper");
 
 const newDiscussion = async (req, res) => {
   const { userID, friendID } = req.params;
@@ -20,4 +20,19 @@ const newDiscussion = async (req, res) => {
   }
 };
 
-module.exports = { newDiscussion };
+const newChat = async (req, res) => {
+  const { userID, discussionID } = req.params;
+  const { content } = req.body;
+
+  try {
+    const response = await makeChat(content, userID, discussionID);
+
+    if (response) {
+      res.status(200).json({ message: "message ajouté avec succés", response });
+    } else {
+      res.status(500).json("echec de l' envoi du message");
+    }
+  } catch (err) {}
+};
+
+module.exports = { newDiscussion, newChat };
