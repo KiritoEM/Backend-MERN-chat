@@ -12,14 +12,20 @@ const addDiscussion = async (userID, friendID) => {
 
     if (existingDiscussion) {
       console.log("Discussion already exists.");
-      return existingDiscussion;
+    } else {
+      let newDiscussion = new discussionModel({
+        users: [user._id, friend._id],
+      });
+
+      const savedDiscussion = await newDiscussion.save();
+
+      user.discussions.push(savedDiscussion._id);
+
+      await user.save();
+
+      console.log("Discussion créée avec succès.");
+      return savedDiscussion;
     }
-
-    let newDiscussion = new discussionModel({
-      users: [user._id, friend._id],
-    });
-
-    return newDiscussion.save();
   } else {
     console.log("Friend is not in the user's friend list.");
     throw new Error("Friend is not in the user's friend list.");

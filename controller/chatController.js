@@ -11,6 +11,7 @@ const newDiscussion = async (req, res) => {
       res
         .status(200)
         .json({ message: "discussion ajoutée avec succés", response });
+    
       
     } else {
       res.status(500).json("echec de la creation de la discussion");
