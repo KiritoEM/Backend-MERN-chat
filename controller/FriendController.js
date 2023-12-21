@@ -9,7 +9,12 @@ const addFriend = async (req, res) => {
 
     if (!user.friends.includes(friend._id)) {
       user.friends.push(friend._id);
+      friend.friends.push(user._id);
+
       await user.save();
+      await friend.save();
+
+      
       return res.status(200).json({ message: "Ami ajouté avec succès" });
     } else {
       return res

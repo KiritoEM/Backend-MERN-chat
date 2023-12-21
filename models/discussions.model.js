@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const discussionSchema = new mongoose.Schema({
+  date: {
+    type: Date,
+    default: Date.now(),
+  },
   name: {
     type: String,
     default: "nouvelle-discussion",

@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { addFriend, getFriend } = require("../controller/FriendController");
 const { newDiscussion, newChat } = require("./../controller/chatController");
+const { getAllUser } = require("./../controller/userController");
+
+//route pour avoir tous les users
+router.get("/all-user/:userID", getAllUser);
 
 //routes pour l' ajout d' amis
 router.post("/:userID/addFriend/:friendID", addFriend);

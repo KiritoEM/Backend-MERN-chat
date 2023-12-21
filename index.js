@@ -17,10 +17,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
-app.get('/home', (req, res) => {
-  res.status(200).json('Welcome, your app is working well');
-})
-
+app.get("/home", (req, res) => {
+  res.status(200).json("Welcome, your app is working well");
+});
 
 // App routes
 app.use("/auth", require("./routes/Auth.routes"));
@@ -28,7 +27,7 @@ app.use("/chat", require("./routes/chat.routes"));
 
 // Start server
 server.listen(process.env.PORT, () => {
-  console.log(`Server started on PORT: ${process.env.PORT}`);
+  console.log(`Server started on PORT: ${process.env?.PORT}`);
 });
 
 module.exports = app;

@@ -8,6 +8,7 @@ const {
 
 const signupController = async (req, res) => {
   const { username, email, password } = req.body;
+  console.log(req.body);
   const hashedPassword = await hashPassword(password);
   const emailExists = await checkEmail(email);
 
