@@ -5,7 +5,7 @@ const { newDiscussion, newChat } = require("./../controller/chatController");
 const { getAllUser } = require("./../controller/userController");
 
 //route pour avoir tous les users
-router.get("/all-user/:userID", getAllUser);
+router.get("/all-user/:token", getAllUser);
 
 //routes pour l' ajout d' amis
 router.post("/:userID/addFriend/:friendID", addFriend);
