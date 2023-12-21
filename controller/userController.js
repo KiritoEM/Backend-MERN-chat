@@ -1,5 +1,6 @@
 const { verifyToken } = require("./../helper/tokenHelper");
 const { getUserHelper } = require("./../helper/userHelper.js");
+const { fectchUserHelper } = require("./../helper/userHelper");
 
 const getAllUser = async (req, res) => {
   try {
@@ -18,4 +19,20 @@ const getAllUser = async (req, res) => {
   }
 };
 
-module.exports = { getAllUser };
+const fetchCurrentUser = async (req, res) => {
+  const { token } = req.params;
+  try {
+    let currentUser = await fetchCurrentUser(token);
+    if (response) {
+      return res.status(200).json(currentUser);
+    } else {
+      return res
+        .status(500)
+        .json({ error: "echec de la récupération de l' utilisateur actuel" });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+module.exports = { getAllUser, fetchCurrentUser };
