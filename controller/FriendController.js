@@ -1,4 +1,5 @@
 const userModel = require("../models/user.model");
+const { addDiscussion } = require("./../helper/chatHelper");
 
 const addFriend = async (req, res) => {
   const { userID, friendID } = req.params;
@@ -14,7 +15,12 @@ const addFriend = async (req, res) => {
       await user.save();
       await friend.save();
 
-      
+      const newDiscussion = await addDiscussion(userID, friendID);
+
+      if (newDiscussion) {
+        console.log("discussion ajoutée");
+      }
+
       return res.status(200).json({ message: "Ami ajouté avec succès" });
     } else {
       return res

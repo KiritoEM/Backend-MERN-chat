@@ -20,15 +20,18 @@ const getAllUser = async (req, res) => {
 };
 
 const fetchCurrentUser = async (req, res) => {
-  const { token } = req.params;
   try {
-    let currentUser = await fetchCurrentUser(token);
-    if (response) {
-      return res.status(200).json(currentUser);
-    } else {
-      return res
-        .status(500)
-        .json({ error: "echec de la récupération de l' utilisateur actuel" });
+    const { token } = req.params;
+
+    if (token) {
+      let currentUser = await fectchUserHelper(token);
+      if (currentUser) {
+        return res.status(200).json(currentUser);
+      } else {
+        return res
+          .status(500)
+          .json({ error: "echec de la récupération de l' utilisateur actuel" });
+      }
     }
   } catch (err) {
     console.error(err);
