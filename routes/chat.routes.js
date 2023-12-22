@@ -1,8 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const { addFriend, getFriend } = require("../controller/FriendController");
-const { newDiscussion, newChat } = require("./../controller/chatController");
-const { getAllUser , fetchCurrentUser } = require("./../controller/userController");
+const {
+  newDiscussion,
+  newChat,
+  getDiscussions,
+} = require("./../controller/chatController");
+const {
+  getAllUser,
+  fetchCurrentUser,
+} = require("./../controller/userController");
 
 //route pour avoir tous les users
 router.get("/all-user/:token", getAllUser);
@@ -19,5 +26,8 @@ router.post("/:userID/new-message/:discussionID", newChat);
 
 //route pour récupérer l'utilisateur actuel
 router.get("/fetch-current-user/:token", fetchCurrentUser);
+
+//route pour récupérer les discussions d'un utilisateur
+router.get("/get-discussions/:userID", getDiscussions);
 
 module.exports = router;

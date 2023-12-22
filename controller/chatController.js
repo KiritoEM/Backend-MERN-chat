@@ -1,4 +1,4 @@
-const userModel = require("../models/user.model");
+const discussionModel = require("./../models/discussions.model");
 const { addDiscussion, makeChat } = require("./../helper/chatHelper");
 
 const newDiscussion = async (req, res) => {
@@ -20,6 +20,27 @@ const newDiscussion = async (req, res) => {
   }
 };
 
+const getDiscussions = async (req, res) => {
+  const { userID } = req.params;
+
+  try {
+    const discussion = await discussionModel
+    .find({ users: userID })
+    .populate({
+      path: "users",
+      match: { _id: { $ne: userID } },
+    })
+    .populate("messages")
+    .exec();
+  
+  const filteredDiscussion = discussion.filter((d) => d.users.length > 0);
+  
+  return res.status(200).json(filteredDiscussion);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 const newChat = async (req, res) => {
   const { userID, discussionID } = req.params;
   const { content } = req.body;
@@ -35,4 +56,4 @@ const newChat = async (req, res) => {
   } catch (err) {}
 };
 
-module.exports = { newDiscussion, newChat };
+module.exports = { newDiscussion, newChat, getDiscussions };
