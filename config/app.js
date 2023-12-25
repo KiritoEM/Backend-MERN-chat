@@ -1,11 +1,10 @@
 const express = require("express");
+const app = express();
 const cors = require("cors");
 const morgan = require("morgan");
 const compression = require("compression");
 const ConnectDB = require("./../database/database");
 const dotenv = require("dotenv").config();
-
-const app = express();
 
 //connexion with mongoDB
 ConnectDB();

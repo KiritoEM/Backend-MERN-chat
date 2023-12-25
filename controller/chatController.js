@@ -1,6 +1,7 @@
 const discussionModel = require("./../models/discussions.model");
 const chatModel = require("./../models/chat.model");
 const { addDiscussion, makeChat } = require("./../helper/chatHelper");
+const socketIoClient = require("socket.io-client");
 
 const newDiscussion = async (req, res) => {
   const { userID, friendID } = req.params;
@@ -66,6 +67,8 @@ const newChat = async (req, res) => {
     const response = await makeChat(content, userID, discussionID);
 
     if (response) {
+      const socket = socketIoClient(process.env.URL_LOCALHOST);
+      socket.emit("messages", response);
       res.status(200).json({ message: "message ajouté avec succés", response });
     } else {
       res.status(500).json("echec de l' envoi du message");

@@ -7,11 +7,10 @@ const setupSocket = (server) => {
   });
 
   io.on("connection", (socket) => {
-    console.log("Utilisateur connecté");
-
-    socket.on("message", (data) => {
-      console.log("Message reçu:", data);
-      io.emit("message", data);
+    console.log("user connected");
+    socket.on("messages", (messages) => {
+      console.log("messages depuis react" , messages);
+      io.emit("messages", messages);
     });
   });
 
