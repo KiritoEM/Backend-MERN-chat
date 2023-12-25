@@ -5,6 +5,7 @@ const {
   newDiscussion,
   newChat,
   getDiscussions,
+  getChat,
 } = require("./../controller/chatController");
 const {
   getAllUser,
@@ -29,5 +30,8 @@ router.get("/fetch-current-user/:token", fetchCurrentUser);
 
 //route pour récupérer les discussions d'un utilisateur
 router.get("/get-discussions/:userID", getDiscussions);
+
+//route pour récupérer les messages de chaque discussion
+router.get("/get-chat/:discussionID", getChat);
 
 module.exports = router;
