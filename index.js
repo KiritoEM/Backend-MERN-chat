@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const compression = require("compression");
 const ConnectDB = require("./database/database");
 const server = require("http").createServer(app);
+const setupSocket = require("./config/socket");
 
 //connexion with mongoDB
 ConnectDB();
@@ -25,9 +26,12 @@ app.get("/home", (req, res) => {
 app.use("/auth", require("./routes/Auth.routes"));
 app.use("/chat", require("./routes/chat.routes"));
 
+// configuration Socket.io
+const io = setupSocket(server);
+
 // Start server
 server.listen(process.env.PORT, () => {
   console.log(`Server started on PORT: ${process.env?.PORT}`);
 });
 
-module.exports = app;
+module.exports = { app, io };
