@@ -19,6 +19,8 @@ const addFriend = async (req, res) => {
 
       if (newDiscussion) {
         console.log("discussion ajoutée");
+        const socket = socketIoClient(process.env.URL_LOCALHOST);
+        socket.emit("newDiscussion", newDiscussion);
       }
 
       return res.status(200).json({ message: "Ami ajouté avec succès" });

@@ -37,9 +37,6 @@ const getDiscussions = async (req, res) => {
 
     const filteredDiscussion = discussion.filter((d) => d.users.length > 0);
 
-    const socket = socketIoClient(process.env.URL_LOCALHOST);
-    socket.emit("discussions", filteredDiscussion);
-
     return res.status(200).json(filteredDiscussion);
   } catch (err) {
     return res.status(500).json({ error: err.message });

@@ -18,9 +18,14 @@ const setupSocket = (server) => {
       io.emit("messages", populatedMessage);
     });
 
-    socket.on("discussions", async (messages) => {
-      console.log("discussions instantannées", messages);
-      io.emit("discussions", messages);
+    socket.on("discussions", async (discussions) => {
+      console.log("discussions instantannées", discussions);
+      io.emit("discussions", discussions);
+    });
+
+    socket.on("newDiscussion", async (discussion) => {
+      console.log("nouvelle discussion", discussion);
+      io.emit("newDiscussion", discussion);
     });
   });
 
