@@ -12,6 +12,13 @@ const setupSocket = (server) => {
   io.on("connection", (socket) => {
     console.log("user connected");
 
+    // Utilisateur connecté
+    socket.on("user-connected", (userID) => {
+      console.log(`Utilisateur connecté : ${userID}`);
+      socket.join(userID);
+      io.emit("update-users", { type: "connect", userID });
+    });
+
     socket.on("messages", async (messages) => {
       console.log("messages depuis react", messages);
       const populatedMessage = await populateAuthor(messages);
@@ -26,6 +33,19 @@ const setupSocket = (server) => {
     socket.on("newDiscussion", async (discussion) => {
       console.log("nouvelle discussion", discussion);
       io.emit("newDiscussion", discussion);
+    });
+
+    // Utilisateur déconnecté
+    socket.on("disconnect", () => {
+      const disconnectedAt = new Date();
+      console.log(
+        `Utilisateur déconnecté : ${socket.userID}, Date de déconnexion : ${disconnectedAt}`
+      );
+      io.emit("update-users", {
+        type: "disconnect",
+        userID: socket.userID,
+        disconnectedAt,
+      });
     });
   });
 
