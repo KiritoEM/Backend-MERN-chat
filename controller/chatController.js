@@ -37,6 +37,9 @@ const getDiscussions = async (req, res) => {
 
     const filteredDiscussion = discussion.filter((d) => d.users.length > 0);
 
+    const socket = socketIoClient(process.env.URL_LOCALHOST);
+    socket.emit("discussions", filteredDiscussion);
+
     return res.status(200).json(filteredDiscussion);
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -67,7 +70,17 @@ const newChat = async (req, res) => {
     const response = await makeChat(content, userID, discussionID);
 
     if (response) {
+      const updatedDiscussion = await discussionModel
+        .findById(discussionID)
+        .populate({
+          path: "users",
+          match: { _id: { $ne: userID } },
+        })
+        .populate("messages")
+        .exec();
+
       const socket = socketIoClient(process.env.URL_LOCALHOST);
+      socket.emit("discussions", [updatedDiscussion]);
       socket.emit("messages", response);
       res.status(200).json({ message: "message ajouté avec succés", response });
     } else {
