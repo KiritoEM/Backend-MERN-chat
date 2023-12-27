@@ -11,9 +11,7 @@ const newDiscussion = async (req, res) => {
     const response = await addDiscussion(userID, friendID, name);
 
     if (response) {
-      res
-        .status(200)
-        .json({ message: "discussion ajoutée avec succés", response });
+      res.status(200).json({ message: "discussion ajoutée avec succés" });
     } else {
       res.status(500).json("echec de la creation de la discussion");
     }
@@ -38,6 +36,24 @@ const getDiscussions = async (req, res) => {
     const filteredDiscussion = discussion.filter((d) => d.users.length > 0);
 
     return res.status(200).json(filteredDiscussion);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+const getDiscussionsByID = async (req, res) => {
+  const { discussionID, userID } = req.params;
+
+  try {
+    const discussion = await discussionModel
+      .findById(discussionID)
+      .populate({
+        path: "users",
+        match: { _id: { $ne: userID } },
+      })
+      .exec();
+
+    return res.status(200).json({ data: [discussion] });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -88,4 +104,10 @@ const newChat = async (req, res) => {
   }
 };
 
-module.exports = { newDiscussion, newChat, getDiscussions, getChat };
+module.exports = {
+  newDiscussion,
+  newChat,
+  getDiscussions,
+  getChat,
+  getDiscussionsByID,
+};
