@@ -1,5 +1,6 @@
 const chatModel = require("./../models/chat.model");
 const discussionModel = require("./../models/discussions.model");
+const { v4: uuidv4 } = require("uuid");
 
 const setupSocket = (server) => {
   const io = require("socket.io")(server, {
@@ -11,28 +12,31 @@ const setupSocket = (server) => {
 
   io.on("connection", (socket) => {
     console.log("user connected");
+    const userID = uuidv4();
 
     // Utilisateur connecté
-    socket.on("user-connected", (userID) => {
+    socket.on("user-connected", () => {
+      // Générez un nouvel ID unique à l'aide de uuid
       console.log(`Utilisateur connecté : ${userID}`);
+      socket.userID = userID;
       socket.join(userID);
-      io.emit("update-users", { type: "connect", userID });
+      socket.emit("update-users", { type: "connect", userID });
     });
 
     socket.on("messages", async (messages) => {
-      console.log("messages depuis react", messages);
+      console.log(`messages de l' ID :${socket.userID}`, messages);
       const populatedMessage = await populateAuthor(messages);
-      io.emit("messages", populatedMessage);
+      io.to(socket.userID).emit("messages", populatedMessage);
     });
 
     socket.on("discussions", async (discussions) => {
       console.log("discussions instantannées", discussions);
-      io.emit("discussions", discussions);
+      io.to(socket.userID).emit("discussions", discussions);
     });
 
     socket.on("newDiscussion", async (discussion) => {
       console.log("nouvelle discussion", discussion);
-      io.emit("newDiscussion", discussion);
+      io.to(socket.userID).emit("newDiscussion", discussion);
     });
 
     // Utilisateur déconnecté
